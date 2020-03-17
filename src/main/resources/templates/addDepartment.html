@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8">
+<title>University Application</title>
+	<link rel="stylesheet" type="text/css"
+	th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+	<style>
+	h1 {
+		background-color:powderblue;
+		margin-left:4.5em;
+		margin-right:4.5em;
+	}
+	input[type=submit]{
+		background-color: blue;
+  		border: none;
+ 		 color: white;
+  		padding: 4px 40px;
+  		text-decoration: none;
+  		margin: 4px 2px;
+  		cursor: pointer;
+	}
+	input[type=text], select, number {
+ 		 width: 80%;
+ 		 padding: 12px 20px;
+ 		 margin: 8px 0;
+ 		 display: inline-block;
+ 		 border: 1px solid #ccc;
+		 border-radius: 4px;
+ 		 box-sizing: border-box;
+	}
+	</style>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#" th:href="@{/}">Registration and
+					Login Module</a>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	
+	<br/>
+	<br/>
+<h1>Add a new department</h1>
+	<br/>
+	<form th:action="@{/university/addDepartment}"
+         th:object="${department}" method="POST">
+         Department Name
+         <input type="text" style="margin-left: 4.0em;" th:field="*{deptName}" />    
+         <br/>
+         Department building
+         <input type="text" style="margin-left: 3.1em;" th:field="*{building}" />    
+         <br/>
+         Budget
+         <input type="number" th:field="*{budget}" style="margin-left: 9.0em;" th:value=0/>    
+         <br/>
+         <input type="submit" value="Add" />
+      </form>
+      
+      <!-- Check if errorMessage is not null and not empty -->
+       
+      <div th:if="${errorMessage}" th:utext="${errorMessage}"
+         style="color:red;font-style:italic;">
+         ...
+      </div>
+</body>
+</html>

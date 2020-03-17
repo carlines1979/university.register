@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8">
+<title>University Application</title>
+	<link rel="stylesheet" type="text/css"
+	th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+	<style>
+	h1 {
+		background-color:powderblue;
+		margin-left:4.5em;
+		margin-right:4.5em;
+	}
+	input[type=submit]{
+		background-color: blue;
+  		border: none;
+ 		 color: white;
+  		padding: 4px 40px;
+  		text-decoration: none;
+  		margin: 4px 2px;
+  		cursor: pointer;
+	}
+	input[type=text], select, number {
+ 		 width: 80%;
+ 		 padding: 12px 20px;
+ 		 margin: 8px 0;
+ 		 display: inline-block;
+ 		 border: 1px solid #ccc;
+		 border-radius: 4px;
+ 		 box-sizing: border-box;
+	}
+	</style>
+</head>
+<body>
+<h1>Add a new instructor</h1>
+	<br/>
+	<form th:action="@{/university/addInstructor}"
+         th:object="${instructor}" method="POST">
+         Instructor ID:
+         <input type="text" style="margin-left: 4.5em;" th:field="*{id}" />    
+         <br/>
+         Instructor Name
+         <input type="text" style="margin-left: 3.1em;" th:field="*{name}" />    
+         <br/>
+         Department name
+         <select th:field="*{deptName}" style="margin-left: 1.5em;">
+         	<option th:each="department : ${department}" th:value="${department.deptName}" th:text="${department.deptName}">
+         	</option>
+         </select>
+         <br/>
+         Salary
+         <input type="number" th:field="*{salary}" style="margin-left: 1.5em;" th:value=0/>    
+         <br/>
+         <input type="submit" value="Add" />
+      </form>
+      
+      <!-- Check if errorMessage is not null and not empty -->
+       
+      <div th:if="${errorMessage}" th:utext="${errorMessage}"
+         style="color:red;font-style:italic;">
+         ...
+      </div>
+</body>
+</html>

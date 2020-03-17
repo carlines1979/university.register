@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8">
+<title>University Application</title>
+	<link rel="stylesheet" type="text/css"
+	th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+	<style>
+	table {
+ 	 	font-family: arial, sans-serif;
+  		border-collapse: collapse;
+ 	 	width: 75%;
+ 	 	margin-left:auto;
+ 	 	margin-right:auto;
+	}
+
+	td, th {
+ 		 border: 1px solid #dddddd;
+ 		 text-align: left;
+ 		 padding: 8px;
+	}
+
+	tr:nth-child(even) {
+ 		 background-color: #dddddd;
+	}
+	h1 {
+		background-color:powderblue;
+		margin-left:4.5em;
+		margin-right:4.5em;
+	}
+	</style>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#" th:href="@{/}">Registration and
+					Login Module</a>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<br>
+	<br>
+<h1>Instructor found</h1>
+	<br/>  
+       <div>
+        <!-- Check if errorMessage is not null and not empty -->
+         <b th:if="${errorMessage}" th:utext="${errorMessage}"
+         style="color:red;font-style:italic;"> 
+          ... </b>
+         
+         <table border="1">
+            <tr>
+               <th>Id</th>
+               <th>Name</th>
+               <th>Department</th>
+               <th>Salary</th>
+               <th>Action</th>
+            </tr>
+            <tr th:each ="instructor : ${instructors}">
+               <td th:utext="${instructor.id}">Id</td>
+               <td th:utext="${instructor.name}">Name</td>
+               <td th:utext="${instructor.deptName}">Department</td>
+               <td th:utext="${instructor.salary}">Salary</td>
+               <td>
+               	<a th:href="@{/deleteIns/(id=${instructor.id})}" class="btn btn-danger" onclick="return confirm('Instructor will be deleted permanently, are you sure?')">Delete</a>
+               </td>
+            </tr>
+         </table>
+     </div>
+         
+       
+
+    
+</body>
+</html>
