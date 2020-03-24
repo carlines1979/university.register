@@ -1,6 +1,7 @@
 
 drop table student;
 drop table instructor;
+drop table course;
 drop table department;
 
 
@@ -9,6 +10,16 @@ create table department
 	 building		varchar(15), 
 	 budget		        numeric(12,2) check (budget > 0),
 	 primary key (dept_name)
+	);
+	
+create table course
+	(course_id		varchar(8), 
+	 title			varchar(50), 
+	 dept_name		varchar(20),
+	 credits		numeric(2,0) check (credits > 0),
+	 primary key (course_id),
+	 foreign key (dept_name) references department(dept_name)
+		on delete set null
 	);
 
 create table instructor
@@ -33,6 +44,7 @@ create table student
 
 delete from student;
 delete from instructor;
+delete from course;
 delete from department;
 
 insert into department values ('Biology', 'Watson', '90000');
@@ -42,6 +54,19 @@ insert into department values ('Finance', 'Painter', '120000');
 insert into department values ('History', 'Painter', '50000');
 insert into department values ('Music', 'Packard', '80000');
 insert into department values ('Physics', 'Watson', '70000');
+insert into course values ('BIO-101', 'Intro. to Biology', 'Biology', '4');
+insert into course values ('BIO-301', 'Genetics', 'Biology', '4');
+insert into course values ('BIO-399', 'Computational Biology', 'Biology', '3');
+insert into course values ('CS-101', 'Intro. to Computer Science', 'Comp. Sci.', '4');
+insert into course values ('CS-190', 'Game Design', 'Comp. Sci.', '4');
+insert into course values ('CS-315', 'Robotics', 'Comp. Sci.', '3');
+insert into course values ('CS-319', 'Image Processing', 'Comp. Sci.', '3');
+insert into course values ('CS-347', 'Database System Concepts', 'Comp. Sci.', '3');
+insert into course values ('EE-181', 'Intro. to Digital Systems', 'Elec. Eng.', '3');
+insert into course values ('FIN-201', 'Investment Banking', 'Finance', '3');
+insert into course values ('HIS-351', 'World History', 'History', '3');
+insert into course values ('MU-199', 'Music Video Production', 'Music', '3');
+insert into course values ('PHY-101', 'Physical Principles', 'Physics', '4');
 insert into instructor values ('10101', 'Srinivasan', 'Comp. Sci.', '65000');
 insert into instructor values ('12121', 'Wu', 'Finance', '90000');
 insert into instructor values ('15151', 'Mozart', 'Music', '40000');
