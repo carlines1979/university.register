@@ -36,15 +36,16 @@
 	<br>
 	<br>
 	<div class="container">
-		<h2>Welcome to the university database</h2>
-
+		<br/>
+		<!-- By default Thymeleaf searchs static content in src/main/resources/static/ -->
+		<img th:src="@{/img/logo.jpg}" alt="university logo"/>
 		<p>
 			Welcome <span sec:authentication="principal.username">User</span>
 		</p>
 	</div>
 	
 	<div class="container">
-		<br/>
+		
 		<h3>General Queries</h3>
 		<ul>
 			<li> <a th:href="@{university/studentList}">Student List </a></li>  
@@ -62,9 +63,12 @@
 			<li><a th:href="@{university/instructorByDepartment}">Search instructors by Department</a></li>
 			<li><a th:href="@{university/addInstructor}">Add a new instructor</a></li>
 		</ul>		
-		<h3>Departments information</h3>
+		<h3>Departments and Courses information</h3>
 		<ul>
 			<li><a th:href="@{university/addDepartment}">Add a new department</a></li>
+			<li><a th:href="@{university/courseByDepartment}">Search courses of each department</a></li>
+			<li><a th:href="@{university/courseList}">General list of courses</a></li>
+			<li><a th:href="@{university/addCourse}">Add a new course</a></li>
 		</ul>
 	</div>
 

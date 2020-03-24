@@ -8,7 +8,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 	th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
 	<style>
 	h1 {
-		background-color:powderblue;
+		background-color:darkblue;
+		color:white; 
 		margin-left:4.5em;
 		margin-right:4.5em;
 	}
@@ -20,6 +21,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
   		text-decoration: none;
   		margin: 4px 2px;
   		cursor: pointer;
+  		border-radius: 8px;
 	}
 	</style>
 </head>
@@ -47,6 +49,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
 	<br>
 	<br>
+<div class="col-md-6 col-md-offset-3">
 <h1>Instructor by ID</h1>
 	<br/>
 	<form th:action="@{/university/instructorById}"
@@ -62,5 +65,6 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
          style="color:red;font-style:italic;">
          ...
       </div>
+</div>
 </body>
 </html>

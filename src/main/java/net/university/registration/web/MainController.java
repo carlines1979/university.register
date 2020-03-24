@@ -4,6 +4,8 @@ import java.util.List;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import net.university.registration.model.Course;
 import net.university.registration.model.Department;
 import net.university.registration.model.Instructor;
 import net.university.registration.model.Student;
+import net.university.registration.repository.CourseRepository;
 import net.university.registration.repository.DepartmentRepository;
 import net.university.registration.repository.InstructorRepository;
 import net.university.registration.repository.StudentRepository;
@@ -65,6 +69,16 @@ public class MainController {
 	 
 	        return "departmentList";
 	 }
+    
+    @Autowired CourseRepository courserepo;
+    @RequestMapping(value = { "/university/courseList" }, method = RequestMethod.GET)
+	 public String courseList( Model model) {
+	 
+	        model.addAttribute("courses", courserepo.findAll());
+	        
+	 
+	        return "courseList";
+	 }	 
     
     	// search STUDENT by ID
  		 // Searching page
@@ -343,7 +357,108 @@ public class MainController {
 				model.addAttribute("errorMessage", errorMessage );				
 		        return "addDepartment";
 		    }
+		 
+		 
+		 
+		 	// search Course by DEPARTMENT
+			// Searching page
+			@RequestMapping(value = { "/university/courseByDepartment" }, method = RequestMethod.GET)
+				public String showCourseByDepartment(Model model) {
+					 
+							
+					    model.addAttribute("course", new Course());
+					    model.addAttribute("department", departmentrepo.findAll());
+					    return "courseByDepartment";
+				}
+					
+			
+			// INPUT DEPARTMENT
+			@RequestMapping(value = { "/university/courseByDepartment" },  method = RequestMethod.POST)
+				public String fetchCourseDept(Model model, @ModelAttribute("course") Instructor instructor, @RequestParam("deptName")  String deptName,
+					    		RedirectAttributes redirectAttributes) {	 	
+					      
+					        if (deptName != null && deptName.length() > 0 ) {
+					        	// Custom query to find instructors by department name
+					        	model.addAttribute("courses", courserepo.findByDeptName(deptName));
+					        	redirectAttributes.addAttribute("deptName", deptName); 
+					            return "redirect:/university/courses/{deptName}";
+					        }
+					 
+					        Object errorMessage = "The department name is mandatory";
+							model.addAttribute("errorMessage", errorMessage );
+					        return "courseByDepartment";
+							
+					    }
+					 
+					 // Courses Found
+					 @RequestMapping(value = { "/university/courses/{deptName}" },  method = RequestMethod.GET)
+					    public String searchCourseDept(Model model, @PathVariable("deptName")  String deptName) {	 	
+					      
+				        	
+					        	List<Course> ins = courserepo.findByDeptName(deptName);
+					        	System.out.println("COURSES BY DEPT: " + ins); 
+					        	if (ins.isEmpty()) {
+					        		Object errorMessage = "There are no courses associated to this department:" + deptName;
+									model.addAttribute("errorMessage", errorMessage );
+					        	} else {
+					        		// 
+					        		model.addAttribute("courses", courserepo.findByDeptName(deptName));
+					        	}
+					            return "course";
+					        
+					 }
+		
 
+					 // ADD a course to the database
+					 // Show the addCourse page
+					 @RequestMapping(value= { "university/addCourse" }, method = RequestMethod.GET)
+					 public String showAddCourse(Model model) {
+						
+						 Course course = new Course();
+						 model.addAttribute("course", course); 
+						 model.addAttribute("department", departmentrepo.findAll());
+						 return "addCourse";
+					 }
+					 
+					 // Add the Course to the database
+					 @RequestMapping(value = { "university/addCourse" }, method = RequestMethod.POST)
+					    public String saveCourse(Model model, //
+					            @ModelAttribute("course") Course course) {
+					 
+					        String course_id = course.getCourse_id();
+					        String title = course.getTitle();
+					        String deptName = course.getDeptName();
+					        int credits = course.getCredits(); 
+					 
+					        if (course_id != null && course_id.length() > 0 //
+					                && title != null && title.length() > 0 //
+					                && deptName != null && deptName.length() > 0 //
+					                && credits >= 0) {
+					            Course newCourse = new Course(course_id, title, deptName, credits);
+					            courserepo.save(newCourse); 
+					 
+					            return "redirect:/";
+					        }
+					 
+					        Object errorMessage = "All fields are mantatory";
+							model.addAttribute("errorMessage", errorMessage );
+							model.addAttribute("department", departmentrepo.findAll());
+					        return "addCourse";
+					    }
+					 
+					 
+					 // DELETE Course
+				 		@RequestMapping(value = "/deleteCourse/", method = RequestMethod.GET)
+				 		public String deleteC(Model model, @RequestParam("course_id")  String id, RedirectAttributes redirectAttributes) {
+				 			boolean present = courserepo.findById(id).isPresent(); 
+				 			if (present) {
+				 				courserepo.deleteById(id);
+				 				return "redirect:/";
+				 			} else {
+				 				return "courseList" ; 
+				 			}
+				 		
+				 		}
 		 
-		 
+	 
 }

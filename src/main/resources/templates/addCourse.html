@@ -9,7 +9,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 	<style>
 	h1 {
 		background-color:darkblue;
-		color:white;
+		color:white; 
 		margin-left:4.5em;
 		margin-right:4.5em;
 	}
@@ -21,7 +21,15 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
   		text-decoration: none;
   		margin: 4px 2px;
   		cursor: pointer;
-  		border-radius: 8px;
+	}
+	input[type=text], select, number {
+ 		 width: 100%;
+ 		 padding: 12px 20px;
+ 		 margin: 8px 0;
+ 		 display: inline-block;
+ 		 border: 1px solid #ccc;
+		 border-radius: 4px;
+ 		 box-sizing: border-box;
 	}
 	</style>
 </head>
@@ -46,20 +54,33 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 			</div>
 		</div>
 	</nav>
-
-<br>
-<br>
-<div class="col-md-6 col-md-offset-3">
-<h1>Instructor by Department</h1>
+	
 	<br/>
-	<form th:action="@{/university/instructorByDepartment}"
-         th:object="${instructor}" method="POST">
-         <p style="margin-left: 4.5em;">Department Name:</p>
-         <select th:field="*{deptName}" style="margin-left: 4.5em;">
+	<br/>
+<div class="col-md-6 col-md-offset-3">
+	<h1>Add a new course</h1>
+	<br/>
+	<form th:action="@{/university/addCourse}"
+         th:object="${course}" method="POST">
+         Course ID:
+         <input type="text"  th:field="*{course_id}" />    
+         <br/>
+         Course title
+         <input type="text"  th:field="*{title}" />    
+         <br/>
+         Department name
+         <select th:field="*{deptName}" >
          	<option th:each="department : ${department}" th:value="${department.deptName}" th:text="${department.deptName}">
          	</option>
          </select>
-         <input type="submit" value="Search" />
+         <br/>
+         Credits
+         <input type="number" th:field="*{credits}"  th:value=1 min="1" max="6"/>    
+         <br/>
+         <br/>
+         <div class="col-sm-6 col-sm-offset-3">
+         <input type="submit" value="Add" class="form-control btn btn-primary" />
+         </div>
       </form>
       
       <!-- Check if errorMessage is not null and not empty -->

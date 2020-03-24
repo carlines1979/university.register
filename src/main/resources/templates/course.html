@@ -25,8 +25,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
  		 background-color: #dddddd;
 	}
 	h1 {
-		background-color:darkblue;
-		color:white; 
+		background-color:powderblue;
 		margin-left:4.5em;
 		margin-right:4.5em;
 	}
@@ -56,24 +55,36 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
 	<br>
 	<br>
-<h1>Student List</h1>
-	<br/>
-	<div>
-	
-         <table >
+<h1>Courses list</h1>
+	<br/>  
+       <div>
+        <!-- Check if errorMessage is not null and not empty -->
+         <b th:if="${errorMessage}" th:utext="${errorMessage}"
+         style="color:red;font-style:italic;"> 
+          ... </b>
+         
+         <table border="1">
             <tr>
                <th>Id</th>
                <th>Name</th>
                <th>Department</th>
-               <th>Total Credits</th>
+               <th>Credits</th>
+               <th>Action</th>
             </tr>
-            <tr th:each ="student : ${students}">
-               <td th:utext="${student.id}">Id</td>
-               <td th:utext="${student.name}">Name</td>
-               <td th:utext="${student.deptName}">Department</td>
-               <td th:utext="${student.totCred}">Total Credits</td>
+            <tr th:each ="course : ${courses}">
+               <td th:utext="${course.course_id}">Id</td>
+               <td th:utext="${course.title}">Name</td>
+               <td th:utext="${course.deptName}">Department</td>
+               <td th:utext="${course.credits}">Credits</td>
+               <td>
+               	<a th:href="@{/deleteIns/(id=${course.course_id})}" class="btn btn-danger" onclick="return confirm('Course will be deleted permanently, are you sure?')">Delete</a>
+               </td>
             </tr>
          </table>
-      </div>
+     </div>
+         
+       
+
+    
 </body>
 </html>

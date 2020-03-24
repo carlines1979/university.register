@@ -7,21 +7,28 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 	<link rel="stylesheet" type="text/css"
 	th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
 	<style>
+	table {
+ 	 	font-family: arial, sans-serif;
+  		border-collapse: collapse;
+ 	 	width: 75%;
+ 	 	margin-left:auto;
+ 	 	margin-right:auto;
+	}
+
+	td, th {
+ 		 border: 1px solid #dddddd;
+ 		 text-align: left;
+ 		 padding: 8px;
+	}
+
+	tr:nth-child(even) {
+ 		 background-color: #dddddd;
+	}
 	h1 {
 		background-color:darkblue;
-		color:white;
+		color:white; 
 		margin-left:4.5em;
 		margin-right:4.5em;
-	}
-	input[type=submit]{
-		background-color: blue;
-  		border: none;
- 		color: white;
-  		padding: 4px 40px;
-  		text-decoration: none;
-  		margin: 4px 2px;
-  		cursor: pointer;
-  		border-radius: 8px;
 	}
 	</style>
 </head>
@@ -47,27 +54,30 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 		</div>
 	</nav>
 
-<br>
-<br>
-<div class="col-md-6 col-md-offset-3">
-<h1>Instructor by Department</h1>
+	<br>
+	<br>
+<h1>Courses List</h1>
 	<br/>
-	<form th:action="@{/university/instructorByDepartment}"
-         th:object="${instructor}" method="POST">
-         <p style="margin-left: 4.5em;">Department Name:</p>
-         <select th:field="*{deptName}" style="margin-left: 4.5em;">
-         	<option th:each="department : ${department}" th:value="${department.deptName}" th:text="${department.deptName}">
-         	</option>
-         </select>
-         <input type="submit" value="Search" />
-      </form>
-      
-      <!-- Check if errorMessage is not null and not empty -->
-       
-      <div th:if="${errorMessage}" th:utext="${errorMessage}"
-         style="color:red;font-style:italic;">
-         ...
+	<div>
+	
+         <table >
+            <tr>
+               <th>Course Id</th>
+               <th>Title</th>
+               <th>Course Department</th>
+               <th>Course Credits</th>
+               <th>Action</th>
+            </tr>
+            <tr th:each ="course : ${courses}">
+               <td th:utext="${course.course_id}">Course Id</td>
+               <td th:utext="${course.title}">Title</td>
+               <td th:utext="${course.deptName}">Course Department</td>
+               <td th:utext="${course.credits}">CourseCredits</td>
+               <td>
+               	<a th:href="@{/deleteCourse/(course_id=${course.course_id})}" class="btn btn-danger" onclick="return confirm('Course will be deleted permanently, are you sure?')">Delete</a>
+               </td>
+            </tr>
+         </table>
       </div>
-</div>
 </body>
 </html>

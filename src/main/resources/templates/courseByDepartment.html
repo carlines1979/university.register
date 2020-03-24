@@ -16,7 +16,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 	input[type=submit]{
 		background-color: blue;
   		border: none;
- 		color: white;
+ 		 color: white;
   		padding: 4px 40px;
   		text-decoration: none;
   		margin: 4px 2px;
@@ -50,10 +50,10 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <br>
 <br>
 <div class="col-md-6 col-md-offset-3">
-<h1>Instructor by Department</h1>
+<h1>Course by Department</h1>
 	<br/>
-	<form th:action="@{/university/instructorByDepartment}"
-         th:object="${instructor}" method="POST">
+	<form th:action="@{/university/courseByDepartment}"
+         th:object="${course}" method="POST">
          <p style="margin-left: 4.5em;">Department Name:</p>
          <select th:field="*{deptName}" style="margin-left: 4.5em;">
          	<option th:each="department : ${department}" th:value="${department.deptName}" th:text="${department.deptName}">

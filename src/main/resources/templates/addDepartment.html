@@ -8,21 +8,22 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 	th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
 	<style>
 	h1 {
-		background-color:powderblue;
+		background-color:darkblue;
+		color:white;
 		margin-left:4.5em;
 		margin-right:4.5em;
 	}
 	input[type=submit]{
 		background-color: blue;
   		border: none;
- 		 color: white;
+ 		color: white;
   		padding: 4px 40px;
   		text-decoration: none;
   		margin: 4px 2px;
   		cursor: pointer;
 	}
 	input[type=text], select, number {
- 		 width: 80%;
+ 		 width: 100%;
  		 padding: 12px 20px;
  		 margin: 8px 0;
  		 display: inline-block;
@@ -56,20 +57,24 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 	
 	<br/>
 	<br/>
+<div class="col-md-6 col-md-offset-3">
 <h1>Add a new department</h1>
 	<br/>
 	<form th:action="@{/university/addDepartment}"
          th:object="${department}" method="POST">
          Department Name
-         <input type="text" style="margin-left: 4.0em;" th:field="*{deptName}" />    
+         <input type="text"  th:field="*{deptName}" />    
          <br/>
          Department building
-         <input type="text" style="margin-left: 3.1em;" th:field="*{building}" />    
+         <input type="text"  th:field="*{building}" />    
          <br/>
          Budget
-         <input type="number" th:field="*{budget}" style="margin-left: 9.0em;" th:value=0/>    
+         <input type="number" th:field="*{budget}"  th:value=0/>    
          <br/>
-         <input type="submit" value="Add" />
+         <br/>
+         <div class="col-sm-6 col-sm-offset-3">
+         <input type="submit" value="Add"  class="form-control btn btn-primary"/>
+         </div>
       </form>
       
       <!-- Check if errorMessage is not null and not empty -->
@@ -78,5 +83,6 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
          style="color:red;font-style:italic;">
          ...
       </div>
+</div>
 </body>
 </html>
